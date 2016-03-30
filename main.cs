@@ -190,10 +190,10 @@ class Program
 			prev_sma5 = calculate_sma(conn.bars.response, 5, 1);
 			sma20 = calculate_sma(conn.bars.response, 20, 0);
 			prev_sma20 = calculate_sma(conn.bars.response, 20, 1);
-			Console.WriteLine("sma5: "+sma5);
-			Console.WriteLine("psma5: "+prev_sma5);
-			Console.WriteLine("sma20: "+sma20);
-			Console.WriteLine("psma20: "+prev_sma20);
+			Console.WriteLine("sma(5): "+sma5);
+			Console.WriteLine("previous sma(5): "+prev_sma5);
+			Console.WriteLine("sma(20): "+sma20);
+			Console.WriteLine("previous sma(20): "+prev_sma20);
 			
 			// calculate crosses
 			int cross = 0;
@@ -216,7 +216,7 @@ class Program
 					{
 						// market close
 						conn.position_edit(int.Parse(open_positions[i].position_id), true, 0.0, 0.0);
-						Console.WriteLine("Closed position "+open_positions[i].position_id);
+						Console.WriteLine("Closed position "+open_positions[i].position_id+".");
 					}
 				}
 				double stop_loss = rate+rate*stop_loss_percent/100;
@@ -236,7 +236,7 @@ class Program
 					{
 						// market close
 						conn.position_edit(int.Parse(open_positions[i].position_id), true, 0.0, 0.0);
-						Console.WriteLine("Closed position "+open_positions[i].position_id);
+						Console.WriteLine("Closed position "+open_positions[i].position_id+".");
 					}
 				}
 				double stop_loss = rate-rate*stop_loss_percent/100;
@@ -248,7 +248,7 @@ class Program
 				}
 			}
 			// if cross = 0, do nothing
-			else if (cross == 0) Console.WriteLine("Cross = 0, doing nothing.");
+			else if (cross == 0) Console.WriteLine("No crosses, doing nothing.");
 
 			// sleep
 			System.Threading.Thread.Sleep(2000);
