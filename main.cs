@@ -145,6 +145,7 @@ class Program
 	
 	static void Main()
 	{
+		Console.WriteLine("Your API token:");
 		string token = Console.ReadLine();
 		Console.WriteLine("Initializing...");
 		API1broker conn = new API1broker(token);
