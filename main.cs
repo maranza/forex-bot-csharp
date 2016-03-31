@@ -88,7 +88,7 @@ class API1broker
 		this.bars = JsonConvert.DeserializeObject<Bars>(call_api(url));
 	}
 	
-	public void position_edit(int position_id, bool market_close, double stop_loss, double take_profit)
+	public void position_edit(int position_id, bool market_close=false, string stop_loss="", string take_profit="")
 	{
 		string url = "https://1broker.com/api/v1/position/edit.php?token=" + this.token;
 		url += "&position_id="+position_id;
@@ -98,7 +98,7 @@ class API1broker
 		call_api(url);
 	}
 	
-	public void order_create(string symbol, double margin, string direction, double leverage, string order_type, double order_type_parameter, double stop_loss, double take_profit)
+	public void order_create(string symbol, double margin, string direction, double leverage, string order_type, string order_type_parameter="", string stop_loss="", string take_profit="")
 	{
 		string url = "https://1broker.com/api/v1/order/create.php?token=" + this.token;
 		url += "&referral_id=" + API1broker.refId;
@@ -215,7 +215,7 @@ class Program
 					if (open_positions[i].direction == "long")
 					{
 						// market close
-						conn.position_edit(int.Parse(open_positions[i].position_id), true, 0.0, 0.0);
+						conn.position_edit(int.Parse(open_positions[i].position_id), true);
 						Console.WriteLine("Closed position "+open_positions[i].position_id+".");
 					}
 				}
@@ -223,7 +223,7 @@ class Program
 				double take_profit = rate-rate*take_profit_percent/100;
 				if (open_positions_count == 0 && open_orders_count == 0)
 				{
-					conn.order_create("EURUSD", margin, "short", 2.0, "Market", 0.0, stop_loss, take_profit);
+					conn.order_create("EURUSD", margin, "short", 2.0, "Market", stop_loss.ToString(), take_profit.ToString());
 					Console.WriteLine("Opened short position.");
 				}
 			}
@@ -235,7 +235,7 @@ class Program
 					if (open_positions[i].direction == "short")
 					{
 						// market close
-						conn.position_edit(int.Parse(open_positions[i].position_id), true, 0.0, 0.0);
+						conn.position_edit(int.Parse(open_positions[i].position_id), true);
 						Console.WriteLine("Closed position "+open_positions[i].position_id+".");
 					}
 				}
@@ -243,7 +243,7 @@ class Program
 				double take_profit = rate+rate*take_profit_percent/100;
 				if (open_positions_count == 0 && open_orders_count == 0)
 				{
-					conn.order_create("EURUSD", margin, "long", 2.0, "Market", 0.0, stop_loss, take_profit);
+					conn.order_create("EURUSD", margin, "long", 2.0, "Market", stop_loss.ToString(), take_profit.ToString());
 					Console.WriteLine("Opened long position.");
 				}
 			}
